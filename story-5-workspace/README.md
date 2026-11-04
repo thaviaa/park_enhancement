@@ -25,8 +25,7 @@ would affect every ITSM user. A purpose-built workspace scoped to the `park` rol
 
 Update set: **PRK Enhancements - Story 5 Workspace**.
 
-> Instance: the screenshot is from **mecknsandbox**; stories 2–4 were reviewed in **mecknctest**.
-> Confirm which instance this is built in and that Story 2 has run there.
+> Instance: building in **mecknsandbox**. Story 2's fix script 01 has run there (validated on SCTASK0082356).
 
 ---
 

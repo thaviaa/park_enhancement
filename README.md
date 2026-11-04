@@ -1,7 +1,10 @@
 # Park & Rec Trades Operations Enhancements
 
 ServiceNow build for Scott Hyatt's 11/3/2026 request (Park & Recreation, Maintenance & Ops).
-Instance reviewed: **mecknctest** (Test).
+Instance reviewed: **mecknctest** (Test). Build and validation now happening in **mecknsandbox** (Sandbox).
+
+> sys_ids below were read from Test. If Sandbox wasn't cloned from Test, verify each one
+> (catalog item, `park` role, `sc_task` read ACL, Service Catalog app menu) before running scripts.
 
 | Story | Folder | Summary |
 |---|---|---|
@@ -11,7 +14,7 @@ Instance reviewed: **mecknctest** (Test).
 | 4 | [`story-4-dashboard`](story-4-dashboard) | Reports, dashboard, and module for submitted / completed / 48 h response rate |
 | 5 | [`story-5-workspace`](story-5-workspace) | Park Trades Workspace: no Incident widgets, Active Tasks panel, Park lists, Park-only landing |
 
-## Key facts from Test
+## Key facts from Test (verify in Sandbox)
 - Catalog item **Park & Rec Work Order** – `00860b96970c02500ae037300153afe8`
 - Role **park** – `c448fd98979c8610500675611153af7d`; contains `sn_request_write`; granted to 18 PRK groups
 - Park modules *Open Park Tasks* / *All Park Tasks* under Service Catalog (`sc_task`, view `park`)
