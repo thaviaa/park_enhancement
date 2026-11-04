@@ -19,7 +19,7 @@ would affect every ITSM user. A purpose-built workspace scoped to the `park` rol
 |---|---|---|---|
 | A | Workspace shell, home + record page | UI Builder wizard (manual) | this README §1 |
 | B | Home page widgets + **Active Tasks** panel (replaces Upcoming) | UI Builder (manual), queries below | this README §2–3 |
-| C | List menu (5 lists) | Fix script | `01_fix_create_list_menu.js` |
+| C | List menu config + 5 lists (auto-linked to the experience) | Fix script | `01_fix_create_list_menu.js` |
 | D | Nav module + default landing for Park-only users | Fix script | `02_fix_module_and_landing.js` |
 | E | Keep new Park users landing in the workspace | Business rule | `03_br_park_landing_on_role_grant.js` |
 

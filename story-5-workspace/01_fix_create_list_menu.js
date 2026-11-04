@@ -2,27 +2,58 @@
  * Story 5 - Park Trades Workspace list menu
  * Run as: Fix Script with update set "PRK Enhancements - Story 5 Workspace". Idempotent (matches on title).
  *
- * Create the workspace in UI Builder first (README §1), then paste the sys_id of the
- * List Menu Configuration the wizard created (sys_ux_list_menu_config).
+ * Create the experience in UI Builder first (URL path park-workspace, Workspace App Shell).
+ * No sys_id to paste: the script finds the experience by URL path, creates the List Menu
+ * Configuration if the experience doesn't have one, and links it via the app config's
+ * "listConfigId" page property (the property workspace shells read for their list menu).
  *
  * Creates:
+ *   sys_ux_list_menu_config     "Park Workspace List Menu" (if missing)
+ *   sys_ux_page_property        listConfigId on the experience -> that config
  *   sys_ux_applicability        "Park users" (role park)
  *   sys_ux_list_category        "Park Work Orders"
  *   sys_ux_list x5              My Tasks, My Group's Tasks, Unassigned, All Open, Recently Closed
  *   sys_ux_applicability_m2m_list  links each list to the applicability
  */
 (function () {
-    var LIST_MENU_CONFIG = 'PASTE_LIST_MENU_CONFIG_SYS_ID';
+    var WS_PATH = 'park-workspace';
     var CAT_ITEM = '00860b96970c02500ae037300153afe8'; // Park & Rec Work Order
     var PARK = 'request_item.cat_item=' + CAT_ITEM;
     var ME = 'assigned_toDYNAMIC90d1921e5f510100a9ad2572f2b477fe';        // "Me"
     var MYGR = 'assignment_groupDYNAMICd6435e965f510100a9ad2572f2b47744'; // "One of My Groups"
     var COLS = 'number,short_description,priority,state,assignment_group,assigned_to,sys_created_on';
 
-    if (LIST_MENU_CONFIG.indexOf('PASTE') === 0) {
-        gs.error('[PRK S5] Set LIST_MENU_CONFIG before running');
+    // 0. Find the experience and its list menu config
+    var exp = new GlideRecord('sys_ux_page_registry');
+    if (!exp.get('path', WS_PATH)) {
+        gs.error('[PRK S5] No experience with URL path "' + WS_PATH + '" - create it in UI Builder first');
         return;
     }
+    gs.info('[PRK S5] Experience "' + exp.getValue('title') + '" -> ' + exp.getUniqueValue());
+
+    var prop = new GlideRecord('sys_ux_page_property');
+    prop.addQuery('page', exp.getUniqueValue());
+    prop.addQuery('name', 'listConfigId');
+    prop.query();
+    var hasProp = prop.next();
+    var LIST_MENU_CONFIG = hasProp ? prop.getValue('value') : '';
+
+    var cfg = new GlideRecord('sys_ux_list_menu_config');
+    if (!LIST_MENU_CONFIG || !cfg.get(LIST_MENU_CONFIG)) {
+        LIST_MENU_CONFIG = upsert('sys_ux_list_menu_config', 'name', 'Park Workspace List Menu', {
+            description: 'List menu for the Park workspace (Story 5)',
+            active: true
+        });
+    }
+    if (!hasProp) {
+        prop.initialize();
+        prop.setValue('page', exp.getUniqueValue());
+        prop.setValue('name', 'listConfigId');
+        prop.setValue('type', 'string');
+    }
+    prop.setValue('value', LIST_MENU_CONFIG);
+    hasProp ? prop.update() : prop.insert();
+    gs.info('[PRK S5] listConfigId -> ' + LIST_MENU_CONFIG);
 
     // 1. Applicability: park role
     var app = upsert('sys_ux_applicability', 'name', 'Park users', {
