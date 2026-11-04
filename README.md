@@ -9,6 +9,7 @@ Instance reviewed: **mecknctest** (Test).
 | 2 | [`story-2-urgency`](story-2-urgency) | Urgency defaults to One Week; Park users can change it after submission; urgency mirrored to `priority` |
 | 3 | [`story-3-sla`](story-3-sla) | 24x5 schedule + 48 h response OLA on Park work order tasks, with backfill |
 | 4 | [`story-4-dashboard`](story-4-dashboard) | Reports, dashboard, and module for submitted / completed / 48 h response rate |
+| 5 | [`story-5-workspace`](story-5-workspace) | Park Trades Workspace: no Incident widgets, Active Tasks panel, Park lists, Park-only landing |
 
 ## Key facts from Test
 - Catalog item **Park & Rec Work Order** – `00860b96970c02500ae037300153afe8`
@@ -18,8 +19,8 @@ Instance reviewed: **mecknctest** (Test).
 - No active SLA definitions on `sc_task` / `sc_req_item`
 
 ## Dependency order
-Story 2 → Story 3 → Story 4  (Story 4's urgency breakdown uses Story 2's priority sync;
-its response-rate reports use Story 3's SLA).
+Story 2 → Story 3 → Story 4 → Story 5  (Story 4's urgency breakdown uses Story 2's priority sync;
+its response-rate reports use Story 3's SLA; Story 5's workspace reuses all three).
 
 ## Open questions for Scott
 1. Who can change urgency — all Park users or supervisors only?
