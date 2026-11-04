@@ -15,6 +15,7 @@ It is the **Urgency** catalog variable on *Park & Rec Work Order* (`urgency`, va
 | 05 | Fix script | Backfill priority on existing Park tasks (needed for Story 4 urgency breakdown) |
 | 06 | Background script | Read-only diagnostic: why Urgency is read-only on SCTASK |
 | 07 | Fix script | Sets script 04's type to onLoad; deactivates legacy "set variables read only" client script that locked Urgency |
+| 08 | ACLs | `sc_item_option` + `sc_item_option.value` write for `park`, Urgency on Park WOs only (variable editor needs this, not just Write roles) |
 
 ### Why priority sync
 Variables can't be grouped on easily in reports or SLA conditions. Mirroring urgency into
