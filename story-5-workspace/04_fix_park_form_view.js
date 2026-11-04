@@ -16,7 +16,12 @@
 (function () {
     var DRY_RUN = false;
     var TABLE = 'sc_task';
-    var SOURCE_VIEW = 'workspace';          // view the Record page uses today
+    var SOURCE_VIEW = 'workspace';          // related lists came from here
+    // Form fields: the Record page was actually rendering the Default view form
+    // (Number, Request, Approval, Assignment group, Assigned to, ...). 'workspace' view has a
+    // different section (CI, Active, ...). Copy fields from Default view.
+    var FORM_SOURCE_VIEW = 'Default view';  // sys_id of the Default view
+    var RESET_FORM = true;                  // true = replace park_workspace sections with a fresh copy
     var VIEW_NAME = 'park_workspace';
     var VIEW_TITLE = 'Park Workspace';
     // Related lists to keep, in display order. Empty = no related list tabs (decided 11/4/2026).
@@ -57,17 +62,33 @@
         gs.info('[PRK S5] Created view ' + VIEW_NAME + ' -> ' + view);
     }
 
-    // ---- 2. form sections + elements (only if the park view has none yet) ----
+    // ---- 2. form sections + elements ----
+    var formSrc = FORM_SOURCE_VIEW == 'Default view' ? 'Default view' : getView(FORM_SOURCE_VIEW);
     var have = new GlideRecord('sys_ui_section');
     have.addQuery('name', TABLE);
     have.addQuery('view', view);
     have.query();
+    if (RESET_FORM) {
+        var removed = 0;
+        while (have.next()) {
+            var del = new GlideRecord('sys_ui_element');
+            del.addQuery('sys_ui_section', have.getUniqueValue());
+            del.deleteMultiple();
+            have.deleteRecord();
+            removed++;
+        }
+        if (removed) gs.info('[PRK S5] Removed ' + removed + ' old section(s) from ' + VIEW_NAME);
+        have = new GlideRecord('sys_ui_section');
+        have.addQuery('name', TABLE);
+        have.addQuery('view', view);
+        have.query();
+    }
     if (have.hasNext()) {
         gs.info('[PRK S5] Form sections already exist on ' + VIEW_NAME + ' - left as is');
     } else {
         var sec = new GlideRecord('sys_ui_section');
         sec.addQuery('name', TABLE);
-        sec.addQuery('view', src);
+        sec.addQuery('view', formSrc);
         sec.query();
         var n = 0;
         while (sec.next()) {
@@ -95,7 +116,7 @@
             }
             n++;
         }
-        gs.info('[PRK S5] Copied ' + n + ' form section(s) from ' + SOURCE_VIEW);
+        gs.info('[PRK S5] Copied ' + n + ' form section(s) from ' + FORM_SOURCE_VIEW);
     }
 
     // ---- 3. related lists: only KEEP ----
