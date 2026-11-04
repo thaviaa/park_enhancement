@@ -14,15 +14,15 @@
  * Step 3: point the Record page at the view (README §4).
  */
 (function () {
-    var DRY_RUN = true;
+    var DRY_RUN = false;
     var TABLE = 'sc_task';
     var SOURCE_VIEW = 'workspace';          // view the Record page uses today
     var VIEW_NAME = 'park_workspace';
     var VIEW_TITLE = 'Park Workspace';
-    var KEEP = [                            // related_list values to keep, in display order
-        'task_sla.task'                     // Task SLAs (Story 3 48 h OLA)
-        // 'sysapproval_approver.sysapproval', // Approvers - add back if Park uses approvals
-    ];
+    // Related lists to keep, in display order. Empty = no related list tabs (decided 11/4/2026).
+    // Source view had: task_ci.task, sysapproval_approver.sysapproval, sysapproval_group.parent,
+    // REL:35e23f2a873303002ae97e2526cb0b1e. Add 'task_sla.task' here to show the Story 3 OLA tab.
+    var KEEP = [];
 
     var src = getView(SOURCE_VIEW);
     if (!src) { gs.error('[PRK S5] Source view "' + SOURCE_VIEW + '" not found'); return; }
