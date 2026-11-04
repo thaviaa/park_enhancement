@@ -6,15 +6,17 @@
  *   Applies on Requested Items: TRUE
  *   Applies on Catalog Tasks: TRUE
  *
- * UX layer only. Server enforcement is the Write roles set in 01_fix script.
- * Makes the form clearly show that Urgency is the one editable field.
+ * UX layer only. The Write roles set in 01_fix do the locking: variables with
+ * write_roles=catalog_admin render read-only, Urgency (write_roles=park) stays editable.
+ *
+ * Do NOT call g_form.setVariablesReadOnly(true) here. In the variable editor the bulk
+ * lock wins over a later setReadOnly('urgency', false), leaving Urgency locked
+ * (seen in Sandbox 11/4/2026).
  *
  * Use the same role as EDIT_ROLE in 01_fix ('park' or 'park_supervisor').
  */
 function onLoad() {
-    g_form.setVariablesReadOnly(true);
     if (g_user.hasRole('park')) {
-        g_form.setReadOnly('urgency', false);
         g_form.showFieldMsg('urgency', 'You can change urgency. Save the task to apply it.', 'info');
     }
 }
