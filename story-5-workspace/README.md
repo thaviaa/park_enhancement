@@ -93,6 +93,15 @@ The template's default record page works for `sc_task`. Check:
 - **Task SLAs** related list shows the 48 h OLA (needs Story 3's `task_sla` read ACL).
 - Compose / work notes, Assigned to, State available in the form header.
 
+### Trim related lists (Park-only view)
+`sc_task`'s Workspace view is shared with SOW, so don't edit it. Run `04_fix_park_form_view.js`:
+dry run lists the current related lists, then set `KEEP` and run for real. It creates view
+`park_workspace` with the same form fields (inline variables) and only the kept related lists.
+
+Point the Record page at it: UI Builder → Record page → **Data resources → Form Controller** →
+**View** = `park_workspace`. (Alternative: *Workspace View Rules*, table `sc_task`, view
+`park_workspace`, scoped to this experience.)
+
 ## 5. Lists and landing
 Run in order:
 1. `01_fix_create_list_menu.js` – 5 lists under a **Park Work Orders** category, visible to `park`.
