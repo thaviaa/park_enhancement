@@ -10,7 +10,7 @@
  */
 (function () {
     var CAT_ITEM = '00860b96970c02500ae037300153afe8';
-    var TEST_USER = ''; // e.g. 'jsmith'
+    var TEST_USER = ''; // user_name or sys_id
 
     // 1. The urgency variable itself
     var v = new GlideRecord('item_option_new');
@@ -70,14 +70,14 @@
     // 4. Impersonated user's roles
     if (TEST_USER) {
         var u = new GlideRecord('sys_user');
-        if (u.get('user_name', TEST_USER)) {
+        if (u.get(TEST_USER) || u.get('user_name', TEST_USER)) {
             var roles = [];
             var r = new GlideRecord('sys_user_has_role');
             r.addQuery('user', u.getUniqueValue());
             r.addQuery('role.name', 'IN', 'park,itil,admin,catalog_admin,sn_request_write,task_editor');
             r.query();
             while (r.next()) roles.push(r.role.name.toString());
-            gs.info('[PRK S2 DIAG] ' + TEST_USER + ' roles: ' + (roles.join(', ') || 'none of the checked roles'));
+            gs.info('[PRK S2 DIAG] ' + u.getValue('user_name') + ' roles: ' + (roles.join(', ') || 'none of the checked roles'));
         } else {
             gs.info('[PRK S2 DIAG] user ' + TEST_USER + ' not found');
         }

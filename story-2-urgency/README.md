@@ -13,6 +13,8 @@ It is the **Urgency** catalog variable on *Park & Rec Work Order* (`urgency`, va
 | 03 | Business Rules | Set priority on task insert; re-sync RITM + tasks + work note when the urgency variable changes |
 | 04 | Catalog Client Script | UX: on RITM/SCTASK forms all variables read-only except Urgency for Park users |
 | 05 | Fix script | Backfill priority on existing Park tasks (needed for Story 4 urgency breakdown) |
+| 06 | Background script | Read-only diagnostic: why Urgency is read-only on SCTASK |
+| 07 | Fix script | Sets script 04's type to onLoad; deactivates legacy "set variables read only" client script that locked Urgency |
 
 ### Why priority sync
 Variables can't be grouped on easily in reports or SLA conditions. Mirroring urgency into
