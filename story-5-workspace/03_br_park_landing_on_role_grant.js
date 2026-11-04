@@ -8,7 +8,7 @@
  * page the user already chose.
  */
 (function executeRule(current, previous /*null when async*/) {
-    var WS_URL = '/now/park/home';
+    var WS_URL = '/now/park-workspace/home';
     var PREF = 'my_home_navigation_page';
     var uid = current.getValue('user');
 

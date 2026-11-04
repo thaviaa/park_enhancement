@@ -10,7 +10,7 @@
  * each instance after the update set is committed.
  */
 (function () {
-    var WS_URL = '/now/park/home';
+    var WS_URL = '/now/park-workspace/home';
     var APP_MENU = 'd128ead2c0a8016501c6bbd3f9c03678'; // Service Catalog menu (where the Park modules live)
     var SKIP_ROLES = ['itil', 'admin'];
     var PREF = 'my_home_navigation_page';              // Next Experience "Home" landing preference

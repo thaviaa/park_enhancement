@@ -32,8 +32,9 @@ Update set: **PRK Enhancements - Story 5 Workspace**.
 ## 1. Create the workspace (UI Builder)
 1. *Now Experience Framework > UI Builder* → **Create** → **Experience** → template **Workspace**.
 2. Settings:
-   - Name: **Park Trades Workspace**
-   - URL path: **`park`** → workspace URL `/now/park/home`
+   - Name: **Park Workspace**
+   - App shell UI: **Workspace App Shell** (if using *Create an experience* instead of the workspace wizard, also create the List menu configuration and record page manually)
+   - URL path: **`park-workspace`** → workspace URL `/now/park-workspace/home`
    - Landing page: **Home**
    - Roles: **`park`** (the wizard creates the UX route ACL from this)
 3. Finish the wizard. It creates the experience, the app config, a **List menu configuration**,
@@ -95,7 +96,7 @@ The template's default record page works for `sc_task`. Check:
 ## 5. Lists and landing
 Run in order:
 1. `01_fix_create_list_menu.js` – 5 lists under a **Park Work Orders** category, visible to `park`.
-2. `02_fix_module_and_landing.js` – nav module + sets home page to `/now/park/home` for users who
+2. `02_fix_module_and_landing.js` – nav module + sets home page to `/now/park-workspace/home` for users who
    have `park` but **not** `itil`/`admin` (they keep their own landing).
 3. `03_br_park_landing_on_role_grant.js` – business rule so newly added PRK group members land in the workspace.
 
@@ -109,13 +110,13 @@ Workspaces menu: only experiences the user's roles allow appear, so non-Park use
   a list filter and see other departments' tasks. Tighten that ACL before go-live.
 
 ## Acceptance tests
-1. Impersonate a Park-only user (not Scott) → *Workspaces* shows **Park Trades Workspace**; logging in lands on `/now/park/home`.
+1. Impersonate a Park-only user (not Scott) → *Workspaces* shows **Park Trades Workspace**; logging in lands on `/now/park-workspace/home`.
 2. Home page shows no "Access Restricted" tiles.
 3. Tile counts match a classic `sc_task` list with the same condition.
 4. Active Tasks lists the user's + group's open Park WOs, Emergency first; closing one removes it.
 5. Click a task → record page; locked variables read-only, Urgency editable.
 6. All 5 lists load; "Unassigned" shows only group tasks with no assignee.
-7. ITIL user (no `park`) → workspace not in menu; direct URL `/now/park/home` is denied.
+7. ITIL user (no `park`) → workspace not in menu; direct URL `/now/park-workspace/home` is denied.
 8. User with both `park` and `itil` → landing unchanged (still SOW / their own home).
 
 ## Open questions for Scott
